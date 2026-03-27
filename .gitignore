@@ -1,0 +1,24 @@
+.DS_Store
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# MATLAB build and cache artifacts
+*.asv
+*.mexa64
+*.mexw64
+*.mexmaci64
+slprj/
+codegen/
+
+# Generic build and compilation artifacts
+build/
+dist/
+out/
+bin/
+obj/
+*.o
+*.so
+*.dylib

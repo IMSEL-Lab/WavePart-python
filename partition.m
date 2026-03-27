@@ -133,8 +133,14 @@ end
 %
 %% STEP 2: Identify all partitions possible
 %
-% AA = watershed_ww3(Ef);        % WW3 watershed algorithm function (using mex is faster)
-AA      = watershed_ww3_mex(Ef); % WW3 watershed algorithm (suggested mex)
+% Prefer the native MEX implementation when it exists for the current
+% platform, but fall back to the MATLAB version so the package remains
+% usable on systems without a compiled binary.
+if exist('watershed_ww3_mex','file') == 3
+    AA = watershed_ww3_mex(Ef); % WW3 watershed algorithm (suggested mex)
+else
+    AA = watershed_ww3(Ef);     % Portable MATLAB fallback
+end
 [m,n]   = size(AA);
 N       = double(max(max(AA)));   % number of partitions identified
 % calculate partition parameters
