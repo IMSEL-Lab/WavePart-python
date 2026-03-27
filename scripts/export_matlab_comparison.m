@@ -47,6 +47,24 @@ for ii = 1:length(idx_list)
     exportgraphics(fig, fullfile(assets_dir, sprintf('matlab_case_%03d_surface.png', idx)), 'Resolution', 180);
     close(fig);
 
+    fig = figure('Position', [100 100 1100 760], 'Color', [1 1 1]);
+    ax = axes(fig);
+    surf(ax, freq', dir', Ef', AA', 'EdgeColor', 'none', 'FaceColor', 'interp');
+    view(ax, [-38 32]);
+    colormap(ax, cmap);
+    clim(ax, [0 np]);
+    cb = colorbar(ax);
+    cb.Ticks = 0:np;
+    cb.Color = [0 0 0];
+    title(ax, sprintf('MATLAB Partition 3D View. Index %d', idx), 'Color', [0 0 0]);
+    xlabel(ax, 'Frequency (Hz)', 'Color', [0 0 0]);
+    ylabel(ax, 'Direction (deg)', 'Color', [0 0 0]);
+    zlabel(ax, 'Smoothed Energy', 'Color', [0 0 0]);
+    grid(ax, 'on');
+    set(ax, 'LineWidth', 1.0, 'Box', 'on', 'FontName', 'Helvetica', 'GridColor', [0.35 0.35 0.35]);
+    exportgraphics(fig, fullfile(assets_dir, sprintf('matlab_case_%03d_3d.png', idx)), 'Resolution', 180);
+    close(fig);
+
     fig = figure('Position', [100 100 900 900], 'Color', [1 1 1]);
     ax = polaraxes(fig);
     delete(ax);

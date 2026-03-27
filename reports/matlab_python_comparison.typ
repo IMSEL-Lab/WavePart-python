@@ -18,7 +18,7 @@
 
 = WavePart MATLAB and Python Comparison
 
-This report compares representative WavePart outputs generated from the bundled sample dataset at indices 1 and 287. Each section shows the MATLAB and Python renderings of the same partition result in Cartesian and polar form.
+This report compares representative WavePart outputs generated from the bundled sample dataset at indices 1 and 287. Each section shows the MATLAB and Python renderings of the same partition result in Cartesian, 3D, and polar form.
 
 #pagebreak()
 
@@ -49,6 +49,18 @@ This report compares representative WavePart outputs generated from the bundled 
     #figure(
       image("assets/python_case_001_polar.png", width: 100%),
       caption: [Python polar view for index 1.],
+    )
+  ],
+  [
+    #figure(
+      image("assets/matlab_case_001_3d.png", width: 100%),
+      caption: [MATLAB 3D view for index 1.],
+    )
+  ],
+  [
+    #figure(
+      image("assets/python_case_001_3d.png", width: 100%),
+      caption: [Python 3D view for index 1.],
     )
   ],
 )
@@ -82,6 +94,18 @@ This report compares representative WavePart outputs generated from the bundled 
     #figure(
       image("assets/python_case_287_polar.png", width: 100%),
       caption: [Python polar view for index 287.],
+    )
+  ],
+  [
+    #figure(
+      image("assets/matlab_case_287_3d.png", width: 100%),
+      caption: [MATLAB 3D view for index 287.],
+    )
+  ],
+  [
+    #figure(
+      image("assets/python_case_287_3d.png", width: 100%),
+      caption: [Python 3D view for index 287.],
     )
   ],
 )
