@@ -4,7 +4,7 @@ from typing import Iterable
 
 import numpy as np
 
-from .core import _as_float_array, _atan2d, _cosd, _sind, _matlab_argmax, _matlab_ind2sub
+from .core import _as_float_array, _atan2d, _cosd, _sind, _fortran_argmax, _fortran_ind2sub
 from .types import FloatArray, PartitionParameters
 
 
@@ -78,8 +78,8 @@ def compute_partition_params(
     for label in range(1, n_partitions + 1):
         mask = labels == label
         epart = energy * mask
-        idx = _matlab_argmax(epart)
-        i1, j1 = _matlab_ind2sub(labels.shape, idx)
+        idx = _fortran_argmax(epart)
+        i1, j1 = _fortran_ind2sub(labels.shape, idx)
         ep = float(energy[i1, j1])
         et = float(np.sum(epart) * df * dth)
         hrms_val = 2 * np.sqrt(2 * et)

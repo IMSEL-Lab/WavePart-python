@@ -5,7 +5,7 @@ from .core import (
     valley_min,
     watershed_ww3,
 )
-from .io import analyze_mat_file, load_spectrum_set
+from .io import analyze_spectrum_file, load_spectrum_set
 from .params import compute_partition_params, dispersion
 from .types import (
     AnalysisResult,
@@ -32,7 +32,7 @@ __all__ = [
     "PartitionResult",
     "WindLimitResult",
     "WindLimitSeries",
-    "analyze_mat_file",
+    "analyze_spectrum_file",
     "compute_partition_params",
     "dispersion",
     "estimate_wind_limit",

@@ -6,14 +6,14 @@ import sys
 import numpy as np
 
 
-def test_partition_mat_cli(tmp_path) -> None:
+def test_partition_cli(tmp_path) -> None:
     output = tmp_path / "partition_case.npz"
     cmd = [
         sys.executable,
         "-m",
         "wavepart.cli",
-        "partition-mat",
-        "data/wavespec2d_ex.mat",
+        "partition",
+        "data/sample_spectra.npz",
         "--index",
         "1",
         "--output",
@@ -32,7 +32,7 @@ def test_wind_limits_cli(tmp_path) -> None:
         "-m",
         "wavepart.cli",
         "wind-limits",
-        "data/wavespec2d_ex.mat",
+        "data/sample_spectra.npz",
         "--output",
         str(output),
     ]

@@ -6,18 +6,18 @@ from pathlib import Path
 
 import numpy as np
 
-from . import analyze_mat_file, estimate_wind_limits, load_spectrum_set
+from . import analyze_spectrum_file, estimate_wind_limits, load_spectrum_set
 
 
 def _add_common_args(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("input", type=Path, help="Path to a MAT file containing freq, dir, S, and optional t.")
+    parser.add_argument("input", type=Path, help="Path to an NPZ file containing freq, direction, spectra, and optional time.")
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="wavepart", description="WavePart Python CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    part = subparsers.add_parser("partition-mat", help="Partition a single spectrum from a MAT file.")
+    part = subparsers.add_parser("partition", help="Partition a single spectrum from an NPZ dataset.")
     _add_common_args(part)
     part.add_argument("--index", type=int, default=1, help="1-based spectrum index to partition.")
     part.add_argument("--depth", type=float, default=30.0, help="Water depth in meters.")
@@ -26,11 +26,11 @@ def build_parser() -> argparse.ArgumentParser:
     part.add_argument("--wind-cutoff", type=float, help="Optional wind cutoff frequency in Hz.")
     part.add_argument("--no-wind-region", action="store_true", help="Disable wind-region reassignment.")
 
-    wind = subparsers.add_parser("wind-limits", help="Estimate wind limits for all spectra in a MAT file.")
+    wind = subparsers.add_parser("wind-limits", help="Estimate wind limits for all spectra in an NPZ dataset.")
     _add_common_args(wind)
     wind.add_argument("--output", type=Path, required=True, help="Output NPZ file.")
 
-    demo = subparsers.add_parser("demo", help="Recreate the two main demo figures for one spectrum.")
+    demo = subparsers.add_parser("demo", help="Render example figures for one spectrum from an NPZ dataset.")
     _add_common_args(demo)
     demo.add_argument("--index", type=int, default=1, help="1-based spectrum index to analyze.")
     demo.add_argument("--depth", type=float, default=30.0, help="Water depth in meters.")
@@ -45,15 +45,15 @@ def _write_summary(path: Path, payload: dict[str, object]) -> None:
 
 def _save_partition_outputs(output: Path, step) -> None:
     params = step.parameters
-    f, d, ee, h = params.to_matlab_arrays() if params is not None else (None, None, None, None)
+    frequency_metrics, direction_metrics, energy_metrics, height_metrics = params.to_raw_arrays() if params is not None else (None, None, None, None)
     np.savez(
         output,
         labels=step.partition.labels,
         smoothed_spectrum=step.partition.smoothed_spectrum,
-        f=f,
-        D=d,
-        Ee=ee,
-        H=h,
+        frequency_metrics=frequency_metrics,
+        direction_metrics=direction_metrics,
+        energy_metrics=energy_metrics,
+        height_metrics=height_metrics,
         wind_cutoff=step.wind_cutoff,
         index=step.index + 1,
     )
@@ -63,8 +63,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
-    if args.command == "partition-mat":
-        analysis = analyze_mat_file(
+    if args.command == "partition":
+        analysis = analyze_spectrum_file(
             args.input,
             indices=[args.index - 1],
             depth=args.depth,
@@ -125,7 +125,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "wind-limits":
         dataset = load_spectrum_set(args.input)
         if dataset.time is None:
-            raise ValueError("The MAT file must contain 't' to estimate wind limits.")
+            raise ValueError("The input file must contain 'time' to estimate wind limits.")
         wind = estimate_wind_limits(dataset.time, dataset.freq, dataset.direction, dataset.spectra)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         np.savez(
@@ -143,7 +143,7 @@ def main(argv: list[str] | None = None) -> int:
         from .plotting import plot_partition_polar, plot_partition_surface
 
         args.output_dir.mkdir(parents=True, exist_ok=True)
-        analysis = analyze_mat_file(
+        analysis = analyze_spectrum_file(
             args.input,
             indices=[args.index - 1],
             depth=args.depth,

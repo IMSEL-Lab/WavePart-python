@@ -52,12 +52,12 @@ class PartitionParameters:
     hsig: FloatArray
     significant_slope: FloatArray
 
-    def to_matlab_arrays(self) -> tuple[FloatArray, FloatArray, FloatArray, FloatArray]:
-        f = np.vstack([self.mean_frequency, self.peak_frequency])
-        d = np.vstack([self.mean_direction, self.peak_direction, self.directional_spread])
-        ee = np.vstack([self.total_energy, self.peak_energy])
-        h = np.vstack([self.hrms, self.hsig, self.significant_slope])
-        return f, d, ee, h
+    def to_raw_arrays(self) -> tuple[FloatArray, FloatArray, FloatArray, FloatArray]:
+        frequency_metrics = np.vstack([self.mean_frequency, self.peak_frequency])
+        direction_metrics = np.vstack([self.mean_direction, self.peak_direction, self.directional_spread])
+        energy_metrics = np.vstack([self.total_energy, self.peak_energy])
+        height_metrics = np.vstack([self.hrms, self.hsig, self.significant_slope])
+        return frequency_metrics, direction_metrics, energy_metrics, height_metrics
 
     def to_xarray(self) -> Any:
         try:

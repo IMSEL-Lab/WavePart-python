@@ -26,15 +26,15 @@ def _atan2d(y: FloatArray, x: FloatArray) -> FloatArray:
     return np.rad2deg(np.arctan2(y, x))
 
 
-def _matlab_argmax(values: FloatArray) -> int:
+def _fortran_argmax(values: FloatArray) -> int:
     return int(np.argmax(np.ravel(values, order="F")))
 
 
-def _matlab_nanargmax(values: FloatArray) -> int:
+def _fortran_nanargmax(values: FloatArray) -> int:
     return int(np.nanargmax(np.ravel(values, order="F")))
 
 
-def _matlab_ind2sub(shape: tuple[int, int], index: int) -> tuple[int, int]:
+def _fortran_ind2sub(shape: tuple[int, int], index: int) -> tuple[int, int]:
     return tuple(int(i) for i in np.unravel_index(index, shape, order="F"))
 
 
@@ -46,8 +46,8 @@ def _wrap_delta_theta(delta_theta: FloatArray) -> FloatArray:
 
 
 def _peak_location(freq: FloatArray, direction: FloatArray, energy: FloatArray, mask: FloatArray) -> tuple[float, float, float]:
-    idx = _matlab_argmax(energy * mask)
-    i1, j1 = _matlab_ind2sub(energy.shape, idx)
+    idx = _fortran_argmax(energy * mask)
+    i1, j1 = _fortran_ind2sub(energy.shape, idx)
     return float(freq[i1]), float(direction[j1]), float(energy[i1, j1])
 
 
@@ -155,8 +155,8 @@ def _nextmax(energy: FloatArray, i: int, j: int, rng: np.random.Generator) -> _W
             next_j = j + j1 - 1
         return _WatershedTrace(next_i, next_j, True)
 
-    index = _matlab_nanargmax(pt)
-    i1, j1 = _matlab_ind2sub(pt.shape, index)
+    index = _fortran_nanargmax(pt)
+    i1, j1 = _fortran_ind2sub(pt.shape, index)
     next_i = i + i1 - 1
     if j == n_cols - 1 and j1 == 2:
         next_j = 0

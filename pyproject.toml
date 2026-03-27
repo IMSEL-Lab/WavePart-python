@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "wavepart"
 version = "0.1.0"
-description = "Python port of the WavePart MATLAB directional wave spectrum partitioner."
+description = "Python package for directional wave spectrum partitioning."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "LICENSE"}
