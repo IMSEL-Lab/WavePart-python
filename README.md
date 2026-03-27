@@ -49,3 +49,31 @@ Relevant References:
    -  J.L. Hanson and O.M. Philips, 2001. Automated Analysis of Ocean Surface Directional  Wave Spectra. Journal of Oceanic and Atmospheric Technology, 18, 278-293.   
    -  J. Portilla, F.J. Ocampo-Torres, and J. Monbaliu, 2009. Spectral Partitioning and Identification of Wind Sea and Swell.  Journal of Oceanic and Atmospheric Technology, 26, 107-121. DOI: 10.1175/2008JTECHO609.1   
    -  E. Cheynet, 2019. Pcolor in Polar Coordinates (https://www.mathworks.com/matlabcentral/fileexchange/49040-pcolor-in-polar-coordinates), MATLAB Central File Exchange. Retrieved March 16, 2019.  
+
+## Python Port
+
+An installable Python port lives under `src/wavepart`.
+
+Install it in editable mode:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -U pip
+python -m pip install -e .[plot,dev]
+```
+
+Run the CLI:
+
+```bash
+wavepart partition-mat data/wavespec2d_ex.mat --index 1 --output out/partition_case.npz
+wavepart wind-limits data/wavespec2d_ex.mat --output out/wind_limits.npz
+wavepart demo data/wavespec2d_ex.mat --index 1 --output-dir out/demo
+```
+
+Refresh MATLAB parity fixtures for tests:
+
+```bash
+python scripts/generate_oracles.py
+pytest
+```

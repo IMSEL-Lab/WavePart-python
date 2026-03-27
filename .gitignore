@@ -27,3 +27,7 @@ obj/
 *.o
 *.so
 *.dylib
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/

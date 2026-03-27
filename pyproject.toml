@@ -1,31 +1,31 @@
 [build-system]
-requires = ["setuptools>=69", "wheel"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "wavepart"
 version = "0.1.0"
-description = "Python packaging shell for directional wave spectrum partitioning"
+description = "Python port of the WavePart MATLAB directional wave spectrum partitioner."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "GPL-3.0-or-later" }
+license = {file = "LICENSE"}
 authors = [
-  { name = "J.C. Vaught", email = "jvaught@sc.edu" },
+  {name = "j-vaught", email = "jvaught@sc.edu"}
 ]
 dependencies = [
-  "numpy>=1.24",
-  "scipy>=1.10",
+  "numpy>=1.26",
+  "scipy>=1.11"
 ]
 
 [project.optional-dependencies]
 plot = [
-  "matplotlib>=3.7",
+  "matplotlib>=3.8"
 ]
 xarray = [
-  "xarray>=2024.1",
+  "xarray>=2024.1"
 ]
 dev = [
-  "pytest>=8",
+  "pytest>=8.0"
 ]
 
 [project.scripts]
@@ -36,3 +36,6 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
