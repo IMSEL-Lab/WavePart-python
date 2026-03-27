@@ -3,6 +3,33 @@
 
 Set of Matlab(r) functions for the partition of directional wave spectra to its wind and different swell components. The partitions are initially identified using a watershed defining algorithm  and then are modified following mostly the method described in Hanson and Phillips (2001).
 
+## Python Package Shell
+
+A Python package scaffold now lives alongside the MATLAB sources. The package is installable from the repo root and exposes a thin CLI for the planned Python port.
+
+Install the base package.
+
+```bash
+pip install -e .
+```
+
+Install optional plotting or labeled-array support.
+
+```bash
+pip install -e ".[plot,xarray]"
+```
+
+Inspect the CLI.
+
+```bash
+wavepart --help
+wavepart partition-mat --mat data/wavespec2d_ex.mat --index 0 --depth 30
+wavepart wind-limits --mat data/wavespec2d_ex.mat
+wavepart demo --mat data/wavespec2d_ex.mat
+```
+
+The CLI shell is in place now. The numerical Python modules are being ported separately, so the commands will become fully functional as those modules land.
+
 Authors:  
   Douglas Cahl and George Voulgaris  
   School of the Earth, Ocean and Environment  
